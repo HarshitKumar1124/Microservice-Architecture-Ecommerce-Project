@@ -1,0 +1,18 @@
+*{
+  margin:0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+body{
+  cursor: url("./cursor.jpg"),auto !important;
+}
+
+
+/* chrome,safari,edge and opera */
+::-webkit-outer-spin-button,
+::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+

@@ -1,0 +1,84 @@
+*{
+    box-sizing: border-box;
+    padding: 0%;
+    margin: 0;
+}
+
+.DashBoard_Container{
+    /* border:2px solid greenyellow; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.DashBoard_Container>h1{
+    margin:2vmax;
+}
+
+.DashBoard_Container>button{
+    padding:1vmax;
+    border: none;
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+    margin:2vmax;
+    transition: all 0.4s;
+
+}
+
+.DashBoard_Container>button:hover{
+    cursor: pointer;
+    background-color: rgb(42, 155, 42);
+    transform: scale(1.1);
+}
+
+.DashBoard_Summary{
+    /* border: 2px solid red; */
+    width: 100%;
+}
+
+.DashBoard_Summary>div{
+    display: flex;
+    font: 300 1.3vmax 'Roboto';
+    color: white;
+    justify-content: center;
+    width: 100%;
+    /* border: 2px solid greenyellow; */
+    margin:.2vmax;
+    padding:1vmax;
+}
+
+.Display_Info>a{
+    /* border: 2px solid black; */
+    color: white;
+    margin: 0 1vmax;
+    width: 10vmax;
+    font: 300 1.7vmax 'Roboto';
+    text-decoration: none;
+    height: 10vmax;
+    border-radius: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.TotalAmount{
+    background-color: dodgerblue;
+}
+
+.Display_Info>a:nth-child(1){
+    background-color: rgb(249, 209, 101);
+}
+
+.Display_Info>a:nth-child(2){
+    background-color: rgb(247, 55, 55);
+}
+
+.Display_Info>a:nth-child(3){
+    background-color: rgb(99, 96, 96);
+}

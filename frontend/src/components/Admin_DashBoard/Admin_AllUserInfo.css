@@ -1,0 +1,222 @@
+*{
+    box-sizing: border-box;
+}
+
+.Container{
+    width: 100%;
+
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.Container>p{
+   
+    font: 400 2vmax 'Roboto';
+    padding: 1vmax;
+    text-align: center;
+    color: rgba(0,0,0,.7);
+    position: relative;
+    
+}
+
+.Container>p::before{
+    content: "";
+    width: 17%;
+    height: 100%;
+    position: absolute;
+    left: 41vmax;
+    top: 0;
+    border-bottom: 2px solid rgba(0,0,0,.7);
+}
+
+.HeadingBar{
+    border-radius: 5px;
+    height:15vh;
+    background:linear-gradient(to right, #debd73 0%, rgb(244, 90, 52) 100%);
+}
+
+.DisplayArea{
+    border: 2px solid red;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+   
+    
+
+}
+
+.DisplayArea>div{
+
+    border: 2px solid black;
+    height: 100%;
+   display: flex;
+   justify-content: center;
+    
+
+
+}
+
+.DisplayArea>div>div{
+    /* border: 2px solid rgb(0, 0, 0); */
+    width: 30%;
+    height: 60vh;
+    margin: 2vmax;
+    box-shadow: 5px 5px 20px black;
+    border-radius: 10px;
+
+   
+
+}
+.LeftSide{
+    display: flex;
+    flex-direction: column;
+}
+
+.LeftSide>p{
+    font: 400 1.5vmax 'Roboto';
+    color: rgba(0,0,0,.7);
+    text-align: center;
+    box-shadow: 0px 5px 10px rgb(177, 175, 175);
+    padding: 1vmax;
+
+
+}
+
+
+
+.LeftSide>img{
+    border: 2px solid green;
+  margin: 2.5vmax 0vmax;
+
+}
+
+
+.RightSide{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.RightSide>p{
+    font: 400 1.5vmax 'Roboto';
+    color: rgba(0,0,0,.7);
+    text-align: center;
+    box-shadow: 0px 5px 10px rgb(177, 175, 175);
+    padding: 1vmax;
+}
+
+.Biodata{
+    /* border: 2px solid red; */
+    
+    overflow-y: scroll;
+}
+
+.Biodata::-webkit-scrollbar{
+    display: none;
+   
+}
+
+.Biodata>div{
+    border: 2px solid yellow;
+    padding: 1vmax;
+}
+
+.Biodata>div>p{
+    font:bold 1vmax 'Roboto';
+    color: rgba(0,0,0,.7);
+    padding: .3vmax;
+}
+
+.Biodata>div>h3{
+    border-bottom: 2px solid rgba(0,0,0,.3);
+    padding: .5vmax .3vmax;
+    font-family:'Roboto'
+}
+
+
+
+.AddressInformation{
+    width: 65% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.AddressInformation>p{
+    font: 400 1.5vmax 'Roboto';
+    color: rgba(0,0,0,.7);
+    display: inline-block;
+    box-shadow: 0 10px 10px rgba(0,0,0,.3);
+    padding: 1vmax;
+}
+
+
+.AddressDisplay{
+    /* border: 2px solid green; */
+
+}
+.AddressDisplayCell>svg{
+    font-size: 1.7vmax !important;
+}
+
+.AddressDisplayCell{
+    /* border: 2px solid yellow; */
+    display: flex;
+    justify-content: flex-start;
+    padding: 1vmax;
+    align-items: center;
+
+}
+.AddressDisplayCell>div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0vmax 1vmax;
+position: relative;
+width: 100%;
+    
+
+}
+
+.AddressDisplayCell>div::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 100%;
+    height: 100%;
+    padding:  0.3vmax;
+    border-bottom: 2px solid rgba(0,0,0,.3);
+
+
+}
+
+.AddressDisplayCell>div>p{
+    margin: 0vmax 1vmax;
+    font: 200 1.1vmax 'Roboto';
+}
+
+.SocialMedia>a{
+    text-decoration: none;
+}
+
+
+#UpdateShippingInfo{
+
+    position: fixed;
+    left:25px;
+    bottom:2%;
+    transition: all .7s ease;
+    background-color: #3f51b5;
+}
+
+#UpdateShippingInfo a{
+    color: white;
+ 
+}
+
+#UpdateShippingInfo:hover{
+
+    transform: scale(1.1);
+}

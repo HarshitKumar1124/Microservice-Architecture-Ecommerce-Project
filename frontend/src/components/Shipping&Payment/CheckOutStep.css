@@ -1,0 +1,32 @@
+
+.stepperDiv{
+    width:85%;
+    /* border: 2px solid red; */
+    /* z-index: 1; */
+    margin: auto;
+}
+
+
+.MuiStepConnector-line{
+
+    /* display:none !important */
+
+}
+
+.MuiStepConnector-root{
+    height: 1.5px !important ;
+    background-color: rgba(0,0,0,.3);
+    
+}
+
+.MuiStepConnector-active{
+
+    background-color: orangered;
+
+}
+
+.MuiStepConnector-completed{
+
+    background-color: greenyellow;
+
+}

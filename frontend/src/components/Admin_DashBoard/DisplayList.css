@@ -1,0 +1,46 @@
+*{
+    box-sizing: border-box;
+}
+
+.DisplayList_Container{
+    border: 2px solid dodgerblue;
+    
+    padding: 7vmax;
+    
+}
+
+.DisplayList_Container>div:nth-child(1){
+    border-top: 2px solid rgb(0, 0, 0);
+    border-bottom: 2px solid rgb(0, 0, 0);
+    padding: 1vmax;
+    text-align: center;
+    font: 300 1.5vmax 'Roboto';
+    background-color: tomato;
+    color:white;
+    margin:.5vmax 0vmax;
+}
+
+.productListTable a:hover,.OrderListTable a:hover{
+
+color: green;
+    
+}
+
+.productListTable Button:hover,.OrderListTable Button:hover{
+
+    color: red;
+        
+    }
+
+
+/* .StatusProcessing{
+    color:red
+}
+
+.StatusDelivered{
+    color:green
+} */
+
+.StatusColor{
+    color:rgb(255, 47, 0)
+}

@@ -1,0 +1,30 @@
+*{
+    box-sizing: border-box;
+}
+
+.myOrderPage{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   padding: 2vmax;
+   
+}
+
+.myOrderPage>p{
+    padding: 1vmax;
+    border-bottom: 2px solid rgba(0,0,0,.5);
+    font: 400 2vmax 'Roboto';
+    background-color: tomato;
+    width: 100%;
+    text-align: center;
+}
+
+.myOrderTable{
+    width: 100%;
+    margin: 2vmax;
+   
+   
+   
+}
+

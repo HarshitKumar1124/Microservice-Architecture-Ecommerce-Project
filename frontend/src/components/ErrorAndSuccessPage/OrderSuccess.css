@@ -1,0 +1,45 @@
+*{
+    box-sizing: border-box;
+}
+
+.OrderSuccess{
+    border: 2px solid red;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.OrderSuccess >svg{
+    font-size: 3vmax;
+    color: rgb(153, 255, 0)
+    
+}
+
+.OrderSuccess>p{
+    font: 1000 1.5vmax 'Roboto';
+    padding: 1vmax;
+
+}
+
+.OrderSuccess>a{
+    font: 200 1vmax 'Roboto';
+    padding: 1vmax;
+    background-color: rgba(0,0,0,.712);
+    color: white;
+    transition: all .5s;
+    border-radius: 4px;
+
+}
+
+.OrderSuccess>a:hover{
+    transform: scale(1.05);
+    background-color: rgba(0,0,0,1);
+    text-shadow: 0 0 5px white;
+    box-shadow: 0 0 5px rgb(56, 54, 54);
+}
+
+

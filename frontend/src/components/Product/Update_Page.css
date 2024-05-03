@@ -1,0 +1,43 @@
+*{
+    box-sizing: border-box;
+}
+
+.Update_Detail{
+    width: 100vw;
+   height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.Update_Details{
+    border: 2px solid black;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    padding:1vmax;
+    
+}
+
+.Update_Details>label, .Update_Details>input{
+    margin:0.3vmax;
+}
+
+.Update_Details>label>input,.Update_Details>label>select{
+    padding:.5vmax;
+    margin-top: .2vmax;
+    width:30vmax
+}
+
+.Update_Details>input{
+    padding:.5vmax ;
+    background-color: tomato;
+    color: white;
+    border: none;
+    border-radius: 10px;;
+}
+
+.Update_Details>input:hover{
+    background-color: rgb(250, 66, 34);
+    cursor: pointer;
+}
+

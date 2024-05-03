@@ -1,0 +1,24 @@
+.contact_Container{
+    border:2px solid green;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.contact_Container a h1{
+    
+    border: 2px solid rgb(127, 125, 125);
+    border-radius: 10px;
+    padding: 1vmax;
+   font: bold 3vmax ;
+    transition: all .5s;
+}
+
+.contact_Container h1:hover{
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px black;
+    
+}

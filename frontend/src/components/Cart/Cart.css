@@ -1,0 +1,148 @@
+
+.CardPage{
+    padding: 7vmax;
+}
+
+
+.cartHeader{
+    width: 90%;
+    background-color: tomato;
+    box-sizing: border-box;
+    color:white;
+    display: grid;
+    margin: auto;
+    font-family: 300 0.7vmax 'Roboto';
+    grid-template-columns: 4fr 1fr 1fr;
+    padding:1vmax
+}
+.cartHeader p{
+    text-align: center;
+}
+
+
+.CartContainer{
+    width:90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+}
+
+
+.NoProductMessage{
+
+    width:90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2vmax;
+    margin-top: 3vmax;
+    margin-bottom: 3vmax;
+    border: 2px solid black;
+}
+
+.NoProductMessage svg{
+    font-size: 2vmax;
+    color: red;
+}
+
+.NoProductMessage a{
+    margin: 1vmax;
+    font: 300 2vmax 'Gill Sans';
+    background-color: rgba(0,0,0);
+    border-radius: 5px;
+    padding: .7vmax;
+    color: white;
+    transition: all 0.5s;
+}
+
+.NoProductMessage a:hover{
+ transform: scale(1.1);
+ text-shadow: 0 0 10px white;
+}
+
+.CartInput {
+    display: flex;
+    align-items: center;
+    height: 8vmax;
+    justify-content: center;
+    border: 2px solid red;
+}
+
+.CartInput >button {
+    border: none;
+    background-color: rgba(0,0,0,.616);
+    padding: 0.5vmax;
+    cursor: pointer;
+    color: white;
+    transition: all 0.5s;
+
+}
+
+.CartInput > button:hover{
+    background-color: rgba(0,0,0,.716);
+
+}
+
+.CartInput > input{
+    border: none;
+    padding: .5vmax;
+    width: 5vmax;
+    font: 400 0.8vmax 'Roboto';
+    color: rgba(0,0,0,0.74);
+    text-align: center;
+    
+
+}
+
+.SubTotal{
+    border: 2px solid orange;
+    height: 8vmax;
+    padding: 0.5vmax;
+    display: flex;
+    color: rgba(0,0,0,.753);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 2;
+}
+
+
+
+.GrossTotal{
+    display: grid;
+    /* border: 2px solid green; */
+    grid-template-columns: 2fr 1.2fr;
+    
+}
+
+.CartGrossProfitBox{
+    border-top: 2px solid orangered;
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    box-sizing: border-box;
+    margin: 1vmax 4vmax;
+    padding: 2vmax 0vmax;
+    font: 300 1vmax 'Roboto';
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.GrossTotal > button{
+    background-color: tomato;
+    border: none;
+    color: white;
+    padding: .8vmax 4vmax;
+    font: 300 0.8vmax 'Roboto';
+    margin: 1vmax 4vmax;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.5s;
+}
+
+
+.GrossTotal > button:hover{
+    background-color: orangered;
+}
+
