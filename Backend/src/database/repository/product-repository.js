@@ -82,6 +82,30 @@ class ProductRepository {
  
         }
      }
+
+     async updateProduct(productID,body){
+
+        try{
+
+            let product = await ProductSchema.findById(productID)
+
+            if(!product){
+                    
+                throw new Error('Unable to find out target product!') 
+                   
+            }
+            
+            product = await ProductSchema.findByIdAndUpdate(productID,body,{
+                new:true,
+                runValidators:true,
+                useFindAndModify:false
+            })
+
+        }catch(error){
+
+            throw error
+        }
+     }
     
 }
 

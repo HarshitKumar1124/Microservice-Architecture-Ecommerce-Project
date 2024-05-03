@@ -1,4 +1,5 @@
 const UserService = require('../services/user-service')
+const ProductService = require('../services/product-service')
 const fs = require('fs')
 const {AuthUser} = require('./middleware')
 const {IsUserAuthenticated,AuthoriseRole} = AuthUser
@@ -8,6 +9,7 @@ const {IsUserAuthenticated,AuthoriseRole} = AuthUser
 module.exports =(app)=>{
 
     const user_service = new UserService();
+    const product_service = new ProductService()
 
     //Registering User
     app.post('/user/register',async(req,res,next)=>{
@@ -44,8 +46,7 @@ module.exports =(app)=>{
         }
 
     })
-
-
+    
 
     //Login User
     app.post('/user/login',async(req,res)=>{
@@ -267,6 +268,9 @@ module.exports =(app)=>{
         }
 
     })
+
+
+    
 
 
 }

@@ -25,7 +25,7 @@ module.exports = async (app)=>{
     
     //api
     user(app) 
-    // product(app) 
+    product(app) 
 
 
     const PORT = process.env.PORT || 8000

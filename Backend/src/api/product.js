@@ -63,7 +63,6 @@ module.exports = (app)=>{
     })
 
 
-
      /* Get All Product */ 
      app.get('/products',async(req,res,next)=>{
 
@@ -160,8 +159,8 @@ module.exports = (app)=>{
     })
 
 
-     //Delete The product   --ADMIN Only
-     app.delete('/user/admin/delete_product/:id',IsUserAuthenticated,AuthoriseRole("admin"), async(req,res,next)=>{
+     /* Delete the product   --ADMIN Only */
+     app.delete('/user/admin/product/delete/:id',IsUserAuthenticated,AuthoriseRole("admin"), async(req,res,next)=>{
 
         try{
 
@@ -173,9 +172,7 @@ module.exports = (app)=>{
                success:true,
                message:"Product Removed Successfully"
             })
-           
         
-
 
         }catch(error){
 
@@ -185,9 +182,237 @@ module.exports = (app)=>{
                 message:`Failed to delete product ${error.errmsg}`
             })
 
-            // next(error)
         }
 
+    })
+
+     /* Update the product   --ADMIN Only */
+     app.put('/user/admin/product/update/:id',IsUserAuthenticated,AuthoriseRole("admin"), async(req,res,next)=>{
+
+        try{
+            
+            const productID = req.params.id;
+
+            if(!productID){
+
+                res.status(401).send({
+                    status:false,
+                    message:"Target Product ID can't be empty"
+                })
+
+                return;
+            }
+
+           await product_service.updateProduct(productID,req.body)
+
+           res.status(200).send({
+            status:true,
+            message:"Product Updated Successfully!"
+           })
+
+
+        }catch(error){
+
+            console.log('Updating product Error Occured',error)
+            res.status(404).send({
+                status:false,
+                message:`Failed to update product ${error.errMsg}`
+            })
+        }
+
+    })
+
+
+    /* Post / Update the Product Review by User --- LoggedIN  */
+    app.put('/product/review/new/:id',IsUserAuthenticated,async(req,res)=>{
+
+        const productID = req.params.id;
+
+        if(!productID){
+
+            res.status(401).send({
+                status:false,
+                message:"Product ID can't be found!"
+
+            })
+
+            return;
+        }
+
+        const current_review ={
+            user_Id:req.user._id,
+            name:req.user.name,
+            rating:Number(req.body.rating),
+            comment:req.body.comment
+        }
+
+        if(!req.body.comment){
+
+            res.status(401).send({
+                status:false,
+                message:"Product review can't be empty!"
+            })
+
+            return;
+        }
+
+
+    try{
+
+            const target_product = await product_service.GetProduct(productID)
+
+            // console.log(target_product)
+        
+            // console.log("Product review ",target_product.reviews);
+        
+             let isReviewed=false;
+        
+            await target_product.reviews.forEach((rev)=> {
+            
+                console.log(rev.user_Id.toString(),req.user._id.toString())
+                
+                if(rev.user_Id.toString()==req.user._id.toString())
+                isReviewed=true;
+        
+            });
+
+
+            let review_status="Added";
+            // console.log(isReviewed)
+            
+            if(isReviewed)
+            {
+                review_status = "Updated"
+               
+                //if already reveiwed then update the previous review by new one
+
+                target_product.reviews.forEach((rev)=>{
+
+                    // console.log(rev.user_Id.toString(),req.user.id.toString())
+                    if(rev.user_Id.toString()===req.user.id.toString())
+                    (rev.rating = current_review.rating),(rev.comment = current_review.comment);
+                        
+                })
+
+            }
+            else
+            {
+
+                //creatig new Review if not existing for specific user
+                // console.log("hii",current_review,"hii")
+                target_product.reviews.push(current_review)
+                // console.log("review added",target_product.reviews,current_review)
+                target_product.numberOfReviews = target_product.reviews.length;
+
+            }
+
+
+
+            let sum=0;
+            target_product.reviews.forEach((rev)=>{
+                sum=sum + parseInt(rev.rating);
+                // console.log(rev.rating , sum)
+            });
+        
+
+            target_product.rating =sum /target_product.numberOfReviews;
+
+
+            // console.log(review_status)
+
+            await target_product.save();
+
+     
+            res.status(200).json({
+                success:true,
+                message:review_status
+            })
+
+
+        }catch(error){
+
+            res.status(500).send({
+                status:false,
+                message:`Unable to post the product review due to ${error.errMsg}`
+            })
+        }
+
+    })
+
+
+    /* Delete the Product Review by User --- LoggedIN */
+    app.delete('/product/review/delete/:id',IsUserAuthenticated,async(req,res)=>{
+
+        const productID = req.params.id;
+
+        if(!productID){
+
+            res.status(401).send({
+                status:false,
+                message:"Product ID can't be found!"
+
+            })
+
+            return;
+        }
+
+
+        try{
+
+            const target_product = await product_service.GetProduct(productID)
+
+            const AllReviews = target_product.reviews.filter((rev)=>{
+    
+           
+                return ( rev.user_Id.toString() !== req.user._id.toString() );
+        
+            })
+
+
+            if(AllReviews===target_product.reviews){
+
+                res.status(500).send({
+                    status:false,
+                    message:`No review by user for this product!`
+                })
+
+                return;
+            }        
+           
+        
+            target_product.reviews = AllReviews;
+
+
+            let sum=0;
+
+
+            AllReviews.forEach((rev)=>{
+                sum+=rev.rating;
+            })
+        
+        
+            target_product.numberOfReviews -=1;
+        
+            target_product.rating = sum /  target_product.numberOfReviews;
+        
+            await target_product.save()
+        
+            res.status(200).json({
+                status:true,
+                message:"Deleted the product review successfully!"
+            })
+
+        }catch(error){
+
+            res.status(500).send({
+                status:false,
+                message:`Unable to delete the product review due to ${error.errMsg}`
+            })
+        }
+    
+       
+       
+    
     })
 
 

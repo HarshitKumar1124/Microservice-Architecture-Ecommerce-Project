@@ -57,7 +57,7 @@ class ProductService{
         }catch(error){
 
            console.log(`Error in fetching Products --- service file -- due to ${error}`)
-           throw error
+           throw {errMsg:error}
         }
 
     }
@@ -78,8 +78,25 @@ class ProductService{
 
     }
 
+   
 
-}
+    }
+
+
+    /* Update the product */
+    async updateProduct(productID,body){
+
+        try{
+
+             await this.repository.updateProduct(productID,body);
+
+        }catch(error){
+
+            throw {errMsg:error}
+        }
+
+    }
+
 }
 
 module.exports = ProductService
