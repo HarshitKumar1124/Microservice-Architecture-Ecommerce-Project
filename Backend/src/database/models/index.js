@@ -1,4 +1,5 @@
 module.exports = {
     UserSchema:require('./UserSchema'),
-    ProductSchema:require('./ProductSchema')
+    ProductSchema:require('./ProductSchema'),
+    OrderSchema:require('./OrderSchema')
 }

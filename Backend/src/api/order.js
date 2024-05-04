@@ -1,132 +1,142 @@
+const { AuthUser } = require("./middleware");
+const { IsUserAuthenticated, AuthoriseRole } = AuthUser;
+const OrderService = require('../services/order-service')
 
-const {AuthUser} = require('./middleware')
-const {IsUserAuthenticated,AuthoriseRole} = AuthUser;
+module.exports = (app) => {
 
-module.exports = (app)=>{
-
-    //* Create New Order --Logged In */
-    app.post('/order/new',IsUserAuthenticated,async(req,res,next)=>{
-
-        try{
-    
-            // console.log("aaya",req.body)
-
-            // const data = await user_service.SignUp(req.body)
-            // return res.status(200).json(data);
+    const order_service = new OrderService();
 
 
-        }catch(error){
+  //* Create New Order --Logged In */
+  app.post("/order/new", IsUserAuthenticated, async (req, res, next) => {
+    try {
 
-            // console.log('SignUp Error',error)
-            // res.status(500).send({
-            //     status:false,
-            //     message:`Failed to create user due to ${error.errmsg}`
-            //   })
-    
-            // next(error)
-        }
+      console.log("Order Creation Initiated!");
 
-    })
+      const body = req.body;
+      const {orderItem} = body;
 
-
-    /* Get Details of Order By OrderID --- Admin Only */
-    app.get('/order/:id',IsUserAuthenticated,AuthoriseRole,async(req,res,next)=>{
-
-        try{
-    
-            // console.log("aaya",req.body)
-
-            // const data = await user_service.SignUp(req.body)
-            // return res.status(200).json(data);
+      let itemsPrice=0;
+      let shippingPrice=20;
 
 
-        }catch(error){
+      if(orderItem.length===0){
 
-            // console.log('SignUp Error',error)
-            // res.status(500).send({
-            //     status:false,
-            //     message:`Failed to create user due to ${error.errmsg}`
-            //   })
-    
-            // next(error)
-        }
+        res.status(401).send({
+            status:false,
+            message:'No Items to order!'
+        })
 
-    })
+        return;
 
+      }
 
-    /* Get My Orders  --- Logged In */
-    app.get('/orders/Myorder',IsUserAuthenticated,async(req,res,next)=>{
+      orderItem.forEach(async(item) => {
+        itemsPrice+=item.quantity * item.price
+        
+      });
 
-        try{
-    
-            // console.log("aaya",req.body)
+      const order = await order_service.createOrder({
+        ...body,
+        itemsPrice,
+        shippingPrice,
+        totalPrice:shippingPrice + itemsPrice,
+        createdBy:req.user._id
+      });
 
-            // const data = await user_service.SignUp(req.body)
-            // return res.status(200).json(data);
+      res.status(200).json({
+        success: true,
+        order,
+        message: "Confirmation | Order placed !",
+      });
 
+    } catch (error) {
 
-        }catch(error){
+      console.log('Error In Order Confirmation placement!',error)
+      res.status(500).send({
+          status:false,
+          order:null,
+          message:`Failed to placed user order due to ${error.errMsg}`
+        })
+      
+    }
+  });
 
-            // console.log('SignUp Error',error)
-            // res.status(500).send({
-            //     status:false,
-            //     message:`Failed to create user due to ${error.errmsg}`
-            //   })
-    
-            // next(error)
-        }
+  /* Get Details of Order By OrderID --- Admin Only */
+  app.get(
+    "/order/:id",
+    IsUserAuthenticated,
+    AuthoriseRole,
+    async (req, res, next) => {
+      try {
+        // console.log("aaya",req.body)
+        // const data = await user_service.SignUp(req.body)
+        // return res.status(200).json(data);
+      } catch (error) {
+        // console.log('SignUp Error',error)
+        // res.status(500).send({
+        //     status:false,
+        //     message:`Failed to create user due to ${error.errmsg}`
+        //   })
+        // next(error)
+      }
+    }
+  );
 
-    })
+  /* Get My Orders  --- Logged In */
+  app.get("/orders/Myorder", IsUserAuthenticated, async (req, res, next) => {
+    try {
+      // console.log("aaya",req.body)
+      // const data = await user_service.SignUp(req.body)
+      // return res.status(200).json(data);
+    } catch (error) {
+      // console.log('SignUp Error',error)
+      // res.status(500).send({
+      //     status:false,
+      //     message:`Failed to create user due to ${error.errmsg}`
+      //   })
+      // next(error)
+    }
+  });
 
+  /* Get All User's Orders  --- Admin Only */
+  app.get(
+    "/admin/orders",
+    IsUserAuthenticated,
+    AuthoriseRole,
+    async (req, res, next) => {
+      try {
+        // console.log("aaya",req.body)
+        // const data = await user_service.SignUp(req.body)
+        // return res.status(200).json(data);
+      } catch (error) {
+        // console.log('SignUp Error',error)
+        // res.status(500).send({
+        //     status:false,
+        //     message:`Failed to create user due to ${error.errmsg}`
+        //   })
+        // next(error)
+      }
+    }
+  );
 
-     /* Get All User's Orders  --- Admin Only */
-     app.get('/admin/orders',IsUserAuthenticated,AuthoriseRole,async(req,res,next)=>{
-
-        try{
-    
-            // console.log("aaya",req.body)
-
-            // const data = await user_service.SignUp(req.body)
-            // return res.status(200).json(data);
-
-
-        }catch(error){
-
-            // console.log('SignUp Error',error)
-            // res.status(500).send({
-            //     status:false,
-            //     message:`Failed to create user due to ${error.errmsg}`
-            //   })
-    
-            // next(error)
-        }
-
-    })
-
-    /* Delete the Order by OrderID  --- Logged In */
-     app.delete('/order/delete/:id',IsUserAuthenticated,async(req,res,next)=>{
-
-        try{
-    
-            // console.log("aaya",req.body)
-
-            // const data = await user_service.SignUp(req.body)
-            // return res.status(200).json(data);
-
-
-        }catch(error){
-
-            // console.log('SignUp Error',error)
-            // res.status(500).send({
-            //     status:false,
-            //     message:`Failed to create user due to ${error.errmsg}`
-            //   })
-    
-            // next(error)
-        }
-
-    })    
-
-}
-
-
+  /* Delete the Order by OrderID  --- Logged In */
+  app.delete(
+    "/order/delete/:id",
+    IsUserAuthenticated,
+    async (req, res, next) => {
+      try {
+        // console.log("aaya",req.body)
+        // const data = await user_service.SignUp(req.body)
+        // return res.status(200).json(data);
+      } catch (error) {
+        // console.log('SignUp Error',error)
+        // res.status(500).send({
+        //     status:false,
+        //     message:`Failed to create user due to ${error.errmsg}`
+        //   })
+        // next(error)
+      }
+    }
+  );
+};

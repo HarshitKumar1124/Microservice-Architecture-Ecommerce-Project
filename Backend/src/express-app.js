@@ -3,7 +3,7 @@ const cors = require('cors')
 const Dotenv = require("dotenv");
 const {PORT} = require('./config/config.env')
 
-const {user,product} = require('./api')
+const {user,product,order} = require('./api')
 const {AuthUser} = require('./api/middleware')
 
 const cookieParser = require('cookie-parser')
@@ -26,6 +26,7 @@ module.exports = async (app)=>{
     //api
     user(app) 
     product(app) 
+    order(app)
 
 
     const PORT = process.env.PORT || 8000
