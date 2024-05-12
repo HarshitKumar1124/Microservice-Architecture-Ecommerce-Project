@@ -9,9 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/User_Microservice',proxy('http://localhost:8001'))
-app.use('/Product_Microservice',proxy('http://localhost:8002'))
-app.use('/Order_Microservice',proxy('http://localhost:8003'))
+app.use('/user',proxy('http://localhost:8001'))
+app.use('/product',proxy('http://localhost:8002'))
+app.use('/order',proxy('http://localhost:8003'))
 
 app.listen(8000,()=>{
     console.log('API Gateway is running live at Port No: 8000');
