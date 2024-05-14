@@ -82,10 +82,7 @@ class OrderService{
 
             if(!order){
 
-                res.status(401).send({
-                    status:false,
-                    message:"unable to find the order!"
-                })
+                throw("Unable to find the order!")
             }
 
             // console.log(order.createdBy,'   ',user._id, order.createdBy===user._id)

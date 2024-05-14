@@ -171,6 +171,44 @@ class UserRepository {
         }
      }
 
+     
+     /* Add OrderID to the userSchema Array */
+     async AddOrder(data,user){
+
+        try{
+
+            // console.log('Add Order Repository',data,user)
+
+            await UserSchema.updateOne({_id:user._id},{
+                $push:{"orders":data.orderID}
+            })
+
+        }catch(error)
+        {
+            console.log(error)
+            throw error
+        }
+     }
+
+      /* Remove OrderID to the userSchema Array */
+      async RemoveOrder(data,user){
+
+        try{
+
+            // console.log('Remove Order Repository',data,user)
+
+            await UserSchema.updateOne({_id:user._id},{
+                $pull:{"orders":data.orderID}
+            })
+
+        }catch(error)
+        {
+            console.log(error)
+            throw error
+        }
+     }
+
+
 
 
 

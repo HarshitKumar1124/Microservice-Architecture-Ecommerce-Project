@@ -3,18 +3,17 @@ const cors = require('cors')
 const Dotenv = require("dotenv");
 const {PORT} = require('./config/config.env')
 
-const {product,appEvents} = require('./api')
-const {AuthUser} = require('./api/middleware')
+const {cart} = require('./api')
 
 const cookieParser = require('cookie-parser')
-
-
 
 module.exports = async (app)=>{
 
     app.use(express.json());
     app.use(cors({
-        origin:"http://localhost:3000",
+        origin:[
+            "http://localhost:3000", /* For Frontend */
+        ],
         credentials:true
     }))
     
@@ -26,20 +25,16 @@ module.exports = async (app)=>{
 
     
     //api
-    product(app) 
+    cart(app) 
 
+    // /* Listen to Other Microservice App-Events */
+    // appEvents(app)
 
-    /*Listen to Network calls from Other services */
-    appEvents(app)
-   
-
-
-    const PORT = process.env.PORT || 8002
-    
+    const PORT = process.env.PORT || 8004
 
     app.listen(PORT,()=>{
 
-        console.log(`Product Server is running on PORT : ${PORT}`)
+        console.log(`Cart Microservice Server is running on PORT : ${PORT}`)
 
     }).on('error',(error)=>{
 

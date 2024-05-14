@@ -3,9 +3,8 @@ const sendToken = require("../utils/JWTToken");
 const fs = require('fs')
 
 
-
-
 // All Business Logics related to Users is presen here.
+
 class UserService{
 
     constructor(){
@@ -166,28 +165,69 @@ class UserService{
     }
 
 
-    
-    /* To communicate with the other Microservices */
-    async subscribeEvents(payload){
+   /* =================== Subscribed App-Events Functionalities ===================== */
 
-       try{
-        const {event,data} = payload;
 
-            switch(event){
-                case 'TEST_EVENT':
-                    console.log('Testing Subscriber in USER!')
-                    return;
-            
-            }
+   async AddOrder(data,user){
 
-       }catch(error){
+    try{
+        // console.log('Add order triggered!')
 
-        console.log( `Failed Event due to ${error}`)
-        
-       }
+        await this.repository.AddOrder(data,user);
+        console.log('Added Order Successfully to UserSchema');
 
+    }catch(error){
+
+        console.log(`Failed to add order to userSchema List due to ${error}`)
+        throw {errMsg:error}
     }
-   
+}
+
+
+async RemoveOrder(data,user){
+
+    try{
+        await this.repository.RemoveOrder(data,user);
+        console.log('Removed the order successfully!')
+
+    }catch(error){
+        
+        console.log(`Failed to remove order to userSchema List due to ${error}`)
+        throw {errMsg:error}
+    }
+}
+
+
+
+
+/* To communicate with the other Microservices */
+async subscribeEvents(payload,user){
+
+   try{
+    const {event,data} = payload;
+
+        switch(event){
+            case 'TEST_EVENT':
+                console.log('Testing Subscriber in USER!')
+                return;
+            case 'ADD_ORDER':
+                console.log(`Network Call to add the orderID in userSchema with data`);
+                this.AddOrder(data,user);
+                return;
+            case 'REMOVE_ORDER':
+                console.log('Network Call to remove the orderID in userSchema with data');
+                this.RemoveOrder(data,user);
+                return;
+        
+        }
+
+   }catch(error){
+
+    console.log( `Failed Event due to ${error}`)
+    
+   }
+
+}
 
 
 }

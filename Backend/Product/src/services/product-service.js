@@ -97,6 +97,51 @@ class ProductService{
 
     }
 
+
+     /* App Events Functionality */
+     async DoesProductExist(orderItem){
+
+        // console.log('Check Existance ',orderItem)
+        
+            const values =  orderItem.map(async(item)=>{
+            
+            try{
+                const product = await this.repository.GetProduct(item.productID)
+                return item
+                
+            }catch(error){
+
+                console.log('kuch get product karne mein error aaya',error,item.productID)
+    
+            }
+            // console.log(Date.now())
+        })
+
+        let existingOrderItem = await Promise.all(values)
+
+        existingOrderItem = existingOrderItem.filter(item=> item!==undefined)
+
+        // console.log(existingOrderItem,Date.now())
+        return existingOrderItem
+   
+
+    }
+
+
+
+    /* Defining the subscriber for network communication from other microservices */
+    async subscribeEvents(payload){
+
+        const {event,data} = payload;
+
+        switch(event){
+            case 'CHECK_PRODUCT_EXIST':
+                console.log(`check if product exist -  ${data.orderItem}`)
+                return this.DoesProductExist(data.orderItem);
+        }
+
+    }
+
 }
 
 module.exports = ProductService
