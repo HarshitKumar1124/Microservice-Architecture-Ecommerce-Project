@@ -2,12 +2,16 @@ const { AuthUser } = require("./middleware");
 const { IsUserAuthenticated, AuthoriseRole } = AuthUser;
 const OrderService = require('../services/order-service')
 
-const {PublishUserEvents,PublishProductEvents} = require('../utils/eventPublisher');
-const { addListener } = require("../../../Product/src/database/models/ProductSchema");
+// const {PublishUserEvents,PublishProductEvents} = require('../utils/eventPublisher');
+
+/* Importing Message Queue Publisher */
+const {MQPublisher} = require('../utils/messageBroker')
+
 
 module.exports = (app) => {
 
     const order_service = new OrderService();
+    const eventPublisher = new MQPublisher();
 
      /* Microservice Server Check */
      app.get('/',(req,res)=>{
@@ -35,18 +39,27 @@ module.exports = (app) => {
 
 
        /* Filter those products in an order which exist in database -- Eliminate the non-existing Products */
-        orderItem = await PublishProductEvents({
-            event:'CHECK_PRODUCT_EXIST',
-            data:{
-              orderItem
-            }
+        // orderItem = await PublishProductEvents({
+        //     event:'CHECK_PRODUCT_EXIST',
+        //     data:{
+        //       orderItem
+        //     }
 
-        })
+        // })
 
-        console.log('List of Products existing for valid order placing ',orderItem)
+        // console.log('List of Products existing for valid order placing ',orderItem)
 
 
 
+        /* Using Message Broker here for Publishing Message */
+        await eventPublisher.publishMessage('USER_SERVICE',{
+              event:'CHECK',
+              data:{
+                orderItem
+              }
+  
+          })
+          
 
       if(orderItem.length===0){
 
@@ -78,12 +91,12 @@ module.exports = (app) => {
       });
 
        /* Here we will publish the User Service to add the OrderID in userSchema */
-       PublishUserEvents({
-        event: "ADD_ORDER",
-        data:{
-          orderID: order._id
-        }
-      },req.user)
+      //  PublishUserEvents({
+      //   event: "ADD_ORDER",
+      //   data:{
+      //     orderID: order._id
+      //   }
+      // },req.user)
 
       res.status(200).json({
         success: true,

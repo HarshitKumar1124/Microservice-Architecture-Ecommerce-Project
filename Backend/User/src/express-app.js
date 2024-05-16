@@ -3,7 +3,8 @@ const cors = require('cors')
 const Dotenv = require("dotenv");
 const {PORT} = require('./config/config.env')
 
-const {user,appEvents} = require('./api')
+// const {user,appEvents} = require('./api')
+const {user} = require('./api')
 const {AuthUser} = require('./api/middleware')
 
 const cookieParser = require('cookie-parser')
@@ -28,8 +29,8 @@ module.exports = async (app)=>{
 
 
 
-    /* Listen to Other Microservice App-Events */
-    appEvents(app)
+    /* Listen to Other Microservice via Network Webhook calls App-Events */
+    // appEvents(app)
 
     const PORT = process.env.PORT || 8001
 

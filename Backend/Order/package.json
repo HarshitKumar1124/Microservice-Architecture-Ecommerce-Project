@@ -10,6 +10,7 @@
   "author": "Harshit Kumr",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.4",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",

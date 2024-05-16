@@ -4,10 +4,15 @@ const {AuthUser} = require('./middleware')
 const {IsUserAuthenticated,AuthoriseRole} = AuthUser
 
 
+/* Importing Message Queue Publisher and Subscriber */
+const {MQPublisher} = require('../utils/messageBroker')
 
 module.exports =(app)=>{
 
     const user_service = new UserService();
+    const eventSubscriber = new MQPublisher()
+
+    eventSubscriber.subscribeMessage('ORDER_EXCHANGE','USER_SERVICE');  /* Here we are subscribing the "Order_Exchange" and "USER_SERVICE Queue" */
 
     /* Microservice Server Check */
     app.get('/',(req,res)=>{
