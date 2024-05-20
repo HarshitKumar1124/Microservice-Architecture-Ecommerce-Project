@@ -52,13 +52,15 @@ module.exports = (app) => {
 
 
         /* Using Message Broker here for Publishing Message */
-        await eventPublisher.publishMessage('USER_SERVICE',{
-              event:'CHECK',
-              data:{
-                orderItem
-              }
+        // await eventPublisher.publishMessage('PRODUCT_SERVICE',{
+        //       event:'CHECK_PRODUCT_EXIST',
+        //       data:{
+        //         orderItem
+        //       }
   
-          })
+        // })
+
+        // console.log('List of Products existing for valid order placing ',orderItem)
           
 
       if(orderItem.length===0){
@@ -97,6 +99,16 @@ module.exports = (app) => {
       //     orderID: order._id
       //   }
       // },req.user)
+
+
+      /* Here we will publish the User Service to add the OrderID in userSchema using Message Broker */
+      await eventPublisher.publishMessage('USER_SERVICE',{
+        event: "ADD_ORDER",
+        data:{
+          orderID: order._id
+        },
+        user:req.user
+      })
 
       res.status(200).json({
         success: true,

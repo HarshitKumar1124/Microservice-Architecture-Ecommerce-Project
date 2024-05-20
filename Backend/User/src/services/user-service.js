@@ -165,6 +165,28 @@ class UserService{
     }
 
 
+    // delete the user -- By Admin Only
+   async GetCart(user){
+
+      
+    try{
+        
+        return await this.repository.GetCart(user)
+
+    }catch(error){
+    
+        
+        throw {errMsg:error}
+
+    }
+
+
+}
+
+
+
+
+
    /* =================== Subscribed App-Events Functionalities ===================== */
 
 
@@ -197,27 +219,45 @@ async RemoveOrder(data,user){
     }
 }
 
+async AddCart(data,user){
+
+    try{
+
+        await this.repository.AddCart(data,user)
+        console.log('Added Product to cart successfully !')
+
+    }catch(error){
+
+        console.log(`Failed to Add product to cart in userSchema List due to ${error}`)
+        throw {errMsg:error}
+
+    }
+}
+
 
 
 
 /* To communicate with the other Microservices */
-async subscribeEvents(payload,user){
+async subscribeEvents(payload){
 
    try{
-    const {event,data} = payload;
+    const {event,data,user} = payload;
 
         switch(event){
             case 'TEST_EVENT':
                 console.log('Testing Subscriber in USER!')
                 return;
             case 'ADD_ORDER':
-                console.log(`Network Call to add the orderID in userSchema with data`);
+                console.log(`Network Call / Message Broker SubscribeEvents to add the orderID in userSchema with data`);
                 this.AddOrder(data,user);
                 return;
             case 'REMOVE_ORDER':
-                console.log('Network Call to remove the orderID in userSchema with data');
+                console.log('Network Call / Message Broker SubscribeEvents to remove the orderID in userSchema with data');
                 this.RemoveOrder(data,user);
                 return;
+            case 'ADD_TO_CART':
+                console.log('Network Call / Message Broker SubscribeEvents to add to cart product in userSchema with data')
+                return this.AddCart(data,user)
         
         }
 

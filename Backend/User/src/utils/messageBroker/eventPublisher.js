@@ -46,7 +46,7 @@ class MQPublisher{
 
     }
 
-    async subscribeMessage(ExchangeName,bindingKey){
+    async subscribeMessage(ExchangeName,bindingKey,user_service){
 
         if(!this.channel){
             await this.establishChannel();
@@ -58,9 +58,10 @@ class MQPublisher{
 
         await this.channel.bindQueue(subscriber_queue.queue,ExchangeName,bindingKey)
 
-        await this.channel.consume(subscriber_queue.queue,(bufferPayload)=>{
+        await this.channel.consume(subscriber_queue.queue,async(bufferPayload)=>{
             let payload = JSON.parse(bufferPayload.content)
             console.log('Here is the subscriber ',payload)
+            await user_service.subscribeEvents(payload)
             this.channel.ack(bufferPayload)
         })
 

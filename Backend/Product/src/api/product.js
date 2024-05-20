@@ -3,9 +3,18 @@ const {AuthUser} = require('./middleware')
 const {IsUserAuthenticated,AuthoriseRole} = AuthUser
 
 
+/* Importing Message Queue Publisher and Subscriber */
+const {MQPublisher} = require('../utils/messageBroker')
+
+const {config} = require('../utils/messageBroker/broker-config.js')
+
+
 module.exports = (app)=>{
 
     const product_service = new ProductService()
+    const messageBrokerEvents  = new MQPublisher();
+
+    messageBrokerEvents.subscribeMessage('ORDER_EXCHANGE','PRODUCT_SERVICE',product_service)
 
     /* Microservice Server Check */
     app.get('/',(req,res)=>{
@@ -464,6 +473,76 @@ module.exports = (app)=>{
        
        
     
+    })
+
+
+
+
+    /* Add to cart item */
+    app.post('/addCart/:id',IsUserAuthenticated,async(req,res)=>{
+        
+        const productID = req.params.id;
+        const {quantity} = req.body;
+        const user = req.user
+
+        try{
+
+            const product = await product_service.GetProduct(productID)
+
+            if(!product){
+
+                res.status(401).send({
+                    success:false,
+                    message:`Product not found to add in cart !`
+
+                })
+            
+            }
+
+
+            /* Here we need to ensure if product is already present in cart or not */
+            /* if it is present then no creation of extra cart and addition in user cart will be done */
+
+            /* Add the product to the cart */
+            // create new cart item
+            messageBrokerEvents.publishMessage('CART_SERVICE',{
+                event:"ADD_TO_CART",
+                data:{
+
+                    quantity:quantity||1,
+                    productID:product._id
+
+                },
+                user:req.user
+            })
+
+
+            //Add cartitem to the usersschema
+            messageBrokerEvents.publishMessage('USER_SERVICE',{
+                event:"ADD_TO_CART",
+                data:{
+
+                    quantity:quantity||1,
+                    productID:product._id
+
+                },
+                user:req.user
+            })
+
+            res.status(500).send({
+                status:true,
+                message:`Added product to cart successfully!`
+            })
+            
+
+        }catch(error){
+
+            res.status(500).send({
+                status:false,
+                message:`Unable to add to cart item due to ${error.errMsg}`
+            })
+        }
+
     })
 
 

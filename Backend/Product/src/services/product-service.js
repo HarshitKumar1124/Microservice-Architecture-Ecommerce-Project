@@ -136,8 +136,8 @@ class ProductService{
 
         switch(event){
             case 'CHECK_PRODUCT_EXIST':
-                console.log(`check if product exist -  ${data.orderItem}`)
-                return this.DoesProductExist(data.orderItem);
+                console.log(`check if product exist Network Calls / Message Broker Subscriber -  ${data.orderItem}`)
+                return await this.DoesProductExist(data.orderItem);
         }
 
     }

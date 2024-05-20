@@ -12,7 +12,9 @@ module.exports =(app)=>{
     const user_service = new UserService();
     const eventSubscriber = new MQPublisher()
 
-    eventSubscriber.subscribeMessage('ORDER_EXCHANGE','USER_SERVICE');  /* Here we are subscribing the "Order_Exchange" and "USER_SERVICE Queue" */
+    eventSubscriber.subscribeMessage('ORDER_EXCHANGE','USER_SERVICE',user_service);  /* Here we are subscribing the "Order_Exchange" and "USER_SERVICE Queue" */
+
+    eventSubscriber.subscribeMessage('PRODUCT_EXCHANGE','USER_SERVICE',user_service)  /* Here we are subscribing the "Product_Exchange" and "USER_SERVICE Queue" */
 
     /* Microservice Server Check */
     app.get('/',(req,res)=>{
@@ -323,6 +325,44 @@ module.exports =(app)=>{
             })
 
             // next(error)
+        }
+
+    })
+
+
+    /* Get All cart Items */
+    app.get('/cartitems',IsUserAuthenticated,async(req,res,next)=>{
+
+        try{
+
+            const cartitems = await user_service.GetCart(req.user);
+
+            if(cartitems.length==0){
+
+                res.status(200).send({
+                    status:true,
+                    message:"No items in the cart",
+                    cartitems:[]
+    
+                })
+
+            }
+
+            res.status(200).send({
+                status:true,
+                message:"Fetched the user's information successfully!",
+                cartitems
+
+            })
+
+        }catch(error){
+
+            
+            res.status(404).send({
+                status:false,
+                message:`Failed to get user cart items ${error.errMsg}`
+            })
+
         }
 
     })

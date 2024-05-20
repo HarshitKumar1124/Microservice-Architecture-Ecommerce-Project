@@ -171,6 +171,36 @@ class UserRepository {
         }
      }
 
+     //By loggedIN Only.
+     async GetCart(user){
+
+        try{
+            // console.log('ayyayayay')
+
+            const cartItems = await UserSchema.findOne({_id:user._id})
+
+ 
+            return cartItems.cart
+       
+
+        }catch(error){
+
+            console.log('yaha error',error)
+ 
+          throw error
+ 
+        }
+     }
+
+
+
+
+
+
+
+
+     /*================================= MESSAGE BROKER / WEBHOOKS EVENTS =========================================*/
+
      
      /* Add OrderID to the userSchema Array */
      async AddOrder(data,user){
@@ -209,7 +239,26 @@ class UserRepository {
      }
 
 
+/* Add to CART product in the userSchema Array */
+async AddCart(data,user){
 
+    try{
+
+        // console.log('Remove Order Repository',data,user)
+        const cartItem = {
+            ...data
+        }
+
+        await UserSchema.updateOne({_id:user._id},{
+            $push:{"cart":cartItem}
+        })
+
+    }catch(error)
+    {
+        console.log(error)
+        throw error
+    }
+ }
 
 
 

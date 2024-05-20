@@ -18,6 +18,7 @@ class MQPublisher{
 
             const connection = await amqp.connect(config.rabbitMQ.url)
             this.channel = await connection.createChannel();
+
             await this.channel.assertExchange(config.rabbitMQ.exchangeName,"direct");
 
         }catch(error){
@@ -34,12 +35,10 @@ class MQPublisher{
         }
 
        try{
-            
-
+        
             await this.channel.publish(config.rabbitMQ.exchangeName,bindingKey,Buffer.from(
                 JSON.stringify(payload)
             ))
-            console.log('Payload Published ')
 
        }catch(error){
         throw error
@@ -47,7 +46,7 @@ class MQPublisher{
 
     }
 
-    async subscribeMessage(ExchangeName,bindingKey,order_service){
+    async subscribeMessage(ExchangeName,bindingKey,cart_service){
 
         if(!this.channel){
             await this.establishChannel();
@@ -55,14 +54,14 @@ class MQPublisher{
 
         try{
 
-        const subscriber_queue = await this.channel.assertQueue('ORDER_QUEUE');
+        const subscriber_queue = await this.channel.assertQueue('CART_QUEUE');
 
         await this.channel.bindQueue(subscriber_queue.queue,ExchangeName,bindingKey)
 
         await this.channel.consume(subscriber_queue.queue,async(bufferPayload)=>{
             let payload = JSON.parse(bufferPayload.content)
             console.log('Here is the subscriber ',payload)
-            await order_service.subscribeEvents(payload)
+            await cart_service.subscribeEvents(payload)
             this.channel.ack(bufferPayload)
         })
 

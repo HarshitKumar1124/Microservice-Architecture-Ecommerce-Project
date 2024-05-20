@@ -35,11 +35,12 @@ class ProductRepository {
     async GetProduct (productID) {
 
         try{
+            // console.log('hi',productID)
 
             let target_product,AllProducts;
 
             if(productID!=='*')
-            target_product = await ProductSchema.findById(productID);
+            target_product = await ProductSchema.findOne({_id:productID});
             else
             AllProducts = await ProductSchema.find()
 

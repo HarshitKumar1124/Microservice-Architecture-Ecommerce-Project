@@ -84,10 +84,11 @@ const UserSchema = new mongoose.Schema({
     ],
     cart:[
         {
-            type: mongoose.Schema.ObjectId,
-            ref:"products",
+            productID:{
+                type: mongoose.Schema.ObjectId,
+                ref:"products",
+            },
            
-
             quantity:{
                 type:Number,
                 default:1
